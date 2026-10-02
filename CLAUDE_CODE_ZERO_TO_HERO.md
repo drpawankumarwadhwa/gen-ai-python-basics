@@ -50,32 +50,45 @@
 **Lab 2.2:** Add a rule to CLAUDE.md (e.g. "always output dates as DD-MMM-YYYY"), rerun, and confirm the behaviour changed.
 ✅ **Exit:** you can steer Claude through standing instructions instead of re-prompting every time.
 
-## Week 3: Level 3 · Skills (reusable SOPs for AI)
+## Week 3: Level 3 · Skills on your Excel tracker
 A **Skill** is a folder with a `SKILL.md`: name, description, and steps. Claude loads it automatically when the description matches the task. Treat it as an SOP the AI follows.
 
-- Example already in this repo: `.claude/skills/pmo-status-report/SKILL.md`
-- **Lab 3.1:** *"Generate this week's status report."* Watch the skill trigger, then review `reports/`.
-- **Lab 3.2:** Write your own skill, e.g. `risk-register-review` (scores RPN = S×O×D like a pFMEA and flags RPN > 100) or `change-control-impact` (CC → affected docs, validation, filing category).
-- `/plugin` lets you browse the marketplace for pre-built skill bundles.
+**Your practice workbook:** `labs/pmo_tracker.xlsx` (synthetic data)
+| Sheet | What it holds | Formulas |
+|---|---|---|
+| Milestones | 12 tech-transfer milestones | Slip = Forecast − Baseline; RAG via IF/AND/OR |
+| Risks | 6 risks scored pFMEA-style | RPN = S × O × D; "Mitigate" if RPN > threshold |
+| Dashboard | Roll-up per project | COUNTIFS, MAXIFS; threshold input in B12 |
 
-✅ **Exit:** two skills that give the same quality output every time, no matter who runs them.
+Blue text = cells you type in. Black text = formulas. The skills follow the same rule.
 
-## Week 4: Level 3 · MCP: connect your tools
-MCP (Model Context Protocol) servers let Claude read and act in other systems.
-```
-claude mcp add --transport http <name> <server-url>
-claude mcp list        # look for ✓ Connected
-/mcp                   # authenticate inside a session
-```
-| Connect | PMO use case |
-|---|---|
-| GitHub | Version-controlled PMO artefacts with audit trail |
-| monday.com / Jira | Pull live milestones, then run status-report skill |
-| Google Drive / M365 | Read SOP/charter drafts, draft steering-committee packs |
-| PubMed / ClinicalTrials.gov | Competitive intel for portfolio prioritisation |
+| Lab | Prompt | Skill used |
+|---|---|---|
+| 3.1 | *"Generate this week's status report."* | `pmo-status-report` → runs `labs/status_report.py` |
+| 3.2 | *"Check the tracker for data-integrity issues."* | `excel-pmo-tracker` (reports only, fixes nothing) |
+| 3.3 | *"Add a risk: fill-finish line shutdown overlaps PPQ, S8 O5 D4, owner Production."* | `excel-pmo-tracker`: proposes the change, archives a copy, then edits |
+| 3.4 | Open the workbook in Excel, change one forecast date, rerun 3.1 | Shows the report follows the data, not the AI's memory |
+| 3.5 | Write your own skill, e.g. `change-control-impact` (CC → affected SOPs, validation, filing category) | Your first SOP for AI |
 
-**Lab 4.1:** Connect one board (monday/Jira) and run *"Pull open milestones and produce the RAG report."*
-✅ **Exit:** live data → governed report with no copy-paste.
+**Insight to bring to leadership:** the Rabies project shows **Green**, yet it holds the portfolio's highest risk (R-04, RPN 225, off the critical path). The rules are doing exactly what they say, which is why the report has a "watch item" line. A rule-based RAG can hide risk, and AI makes it cheap to surface it every week.
+
+✅ **Exit:** the same question gives the same governed answer every week, whoever runs it.
+
+## Week 4: Level 3 · Connect Excel where it lives
+You don't need an MCP server to start. Claude Code reads and writes `.xlsx` on disk through Python (pandas reads it, openpyxl edits it while keeping formulas). Grow in this order:
+
+| Stage | Setup | When to use it |
+|---|---|---|
+| 1. Local file | Workbook in the repo or a synced OneDrive folder; `cd` there and run `claude` | Now: personal tracker, labs |
+| 2. Synced team file | Point the script at the OneDrive/SharePoint sync path: `python labs/status_report.py "C:/Users/<you>/OneDrive - <Org>/PMO/tracker.xlsx"` | Shared tracker; the PMO analysts keep editing in Excel |
+| 3. Microsoft 365 connector (MCP) | `claude mcp add --transport http <name> <url>` then `/mcp` to sign in. Needs IT approval | Read SharePoint/Teams/Outlook directly, e.g. draft the steering-committee email |
+| 4. Power BI | Power BI reads the same workbook; Claude writes the DAX and reviews the model | Executive portfolio dashboard |
+
+**Lab 4.1:** Copy the tracker into your OneDrive folder and run the report against that path.
+**Lab 4.2:** *"Add a Resources sheet (FTE demand vs capacity by month per function) and a Dashboard column flagging months above 100 % load."*
+**Lab 4.3:** *"Write the Power BI DAX measures for project RAG and slip days, using the same rules as the Excel formulas."*
+
+✅ **Exit:** your real (approved) tracker feeds the report with no copy-paste.
 
 ## Week 5: Level 4 · Automate
 | Feature | What | Example |
@@ -99,7 +112,7 @@ claude mcp list        # look for ✓ Connected
 **ROI template** (fill in with your own numbers)
 | Activity | Hrs/week before | After | Saved/yr (×48 wks) |
 |---|---|---|---|
-| Weekly portfolio RAG pack | 6 | 1 | 240 h |
+| Weekly portfolio RAG pack from the Excel tracker | 6 | 1 | 240 h |
 | CC impact assessments (draft) | 5 | 2 | 144 h |
 | Steering-committee minutes & actions | 3 | 0.5 | 120 h |
 | **Total** | | | **~500 h ≈ 0.25 FTE of a senior PM** |
