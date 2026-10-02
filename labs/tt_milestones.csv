@@ -1,0 +1,13 @@
+project,workstream,milestone,owner,baseline_date,forecast_date,status,critical_path
+TT-MR-Vaccine-SiteB,Process,Process description & PFD frozen,MSAT,2026-07-15,2026-07-20,Complete,Y
+TT-MR-Vaccine-SiteB,Analytical,Analytical method transfer protocol approved,QC,2026-08-01,2026-08-25,In Progress,Y
+TT-MR-Vaccine-SiteB,Equipment,Bioreactor IQ/OQ complete,Engineering,2026-08-15,2026-09-30,Delayed,Y
+TT-MR-Vaccine-SiteB,Quality,Change control CC-2026-118 approved,QA,2026-07-30,2026-07-30,Complete,N
+TT-MR-Vaccine-SiteB,Process,Engineering batch 1 executed,Production,2026-09-15,2026-10-20,At Risk,Y
+TT-MR-Vaccine-SiteB,Regulatory,Post-approval change filing strategy agreed,RA,2026-09-01,2026-09-10,In Progress,N
+TT-MR-Vaccine-SiteB,Process,PPQ protocol approved,QA,2026-10-15,2026-11-15,Not Started,Y
+TT-MR-Vaccine-SiteB,Process,PPQ batches 1-3 executed,Production,2026-11-30,2027-01-10,Not Started,Y
+TT-MR-Vaccine-SiteB,Regulatory,Variation dossier (Module 3) submitted,RA,2027-01-31,2027-03-05,Not Started,Y
+TT-Rabies-CDMO,Analytical,Potency assay transfer report signed,QC,2026-08-20,2026-08-18,Complete,Y
+TT-Rabies-CDMO,Supply,Critical raw material 2nd source qualified,Procurement,2026-09-30,2026-12-15,Delayed,N
+TT-Rabies-CDMO,Process,Scale-down model qualified,MSAT,2026-09-20,2026-09-25,In Progress,Y
